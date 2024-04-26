@@ -9,6 +9,7 @@ import subprocess
 from subprocess import Popen, PIPE
 import itertools
 import time
+from exec_utils import run_test
 
 
 EXTENSIONS = { "C": ".c", "C++": ".cpp", "Java": ".java", "Python": ".py", "Go": ".go" }
@@ -27,7 +28,6 @@ _TEST_FAILED = 4
 _UNKNOWN = 5
 
 _mapping = {_SUCCESS: SUCCESS, _RUNTIME_FAILED: RUNTIME_FAILED, _COMPILE_FAILED: COMPILE_FAILED, _INFINTIE_LOOP: INFINTIE_LOOP, _TEST_FAILED: TEST_FAILED, _UNKNOWN: None}
-
 
 def write_directory(directory: PathLike, data: Iterable[Dict], ext: str):
     os.makedirs(directory, exist_ok=True)
@@ -384,6 +384,16 @@ def untrusted_check(
     print("=====================================================")
     print(completion_id)
     print("=====================================================")
+
+    result, outcome = run_test(problem, code, target_lang)
+
+    print("=====================================================")
+    print(result)
+    print("=====================================================")
+    print(outcome)
+    print("=====================================================")
+
+    return outcome
 
     # shared memory objects
     stat = Value("i", _UNKNOWN)
