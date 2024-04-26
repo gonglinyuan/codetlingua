@@ -376,52 +376,52 @@ def untrusted_check(
     completion_id: int,
 ) -> Tuple[str, np.ndarray]:
 
-    print("=====================================================")
-    print(problem)
-    print("=====================================================")
-    print(code)
-    print("=====================================================")
-    print(target_lang)
-    print("=====================================================")
-    print(completion_id)
-    print("=====================================================")
+    # print("=====================================================")
+    # print(problem)
+    # print("=====================================================")
+    # print(code)
+    # print("=====================================================")
+    # print(target_lang)
+    # print("=====================================================")
+    # print(completion_id)
+    # print("=====================================================")
 
     build_execeval(Namespace(port=5000))
     result, outcome = run_test(problem, code, target_lang)
 
-    print("=====================================================")
-    print(result)
-    print("=====================================================")
-    print(outcome)
-    print("=====================================================")
+    # print("=====================================================")
+    # print(result)
+    # print("=====================================================")
+    # print(outcome)
+    # print("=====================================================")
 
     return outcome
 
-    # shared memory objects
-    stat = Value("i", _UNKNOWN)
-
-    p = multiprocessing.Process(
-        target=exec_sample,
-        args=(
-            problem,
-            code,
-            target_lang,
-            completion_id,
-            stat,
-        ),
-    )
-
-    p.start()
-    p.join(100)
-
-    if p.is_alive():
-        p.terminate()
-        time.sleep(0.1)
-    if p.is_alive():
-        p.kill()
-        time.sleep(0.1)
-
-    return _mapping[stat.value]
+    # # shared memory objects
+    # stat = Value("i", _UNKNOWN)
+    #
+    # p = multiprocessing.Process(
+    #     target=exec_sample,
+    #     args=(
+    #         problem,
+    #         code,
+    #         target_lang,
+    #         completion_id,
+    #         stat,
+    #     ),
+    # )
+    #
+    # p.start()
+    # p.join(100)
+    #
+    # if p.is_alive():
+    #     p.terminate()
+    #     time.sleep(0.1)
+    # if p.is_alive():
+    #     p.kill()
+    #     time.sleep(0.1)
+    #
+    # return _mapping[stat.value]
 
 
 def check_correctness(
