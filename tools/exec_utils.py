@@ -150,4 +150,5 @@ def run_test(problem, code, target_lang):
 
 def build_execeval(args: Namespace):
     global execeval
-    execeval = APICommunication(server_url=f"http://localhost:{args.port}")
+    if execeval is None:
+        execeval = APICommunication(server_url=f"http://localhost:{args.port}")

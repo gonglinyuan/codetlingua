@@ -9,7 +9,8 @@ import subprocess
 from subprocess import Popen, PIPE
 import itertools
 import time
-from exec_utils import run_test
+from exec_utils import run_test, build_execeval
+from argparse import Namespace
 
 
 EXTENSIONS = { "C": ".c", "C++": ".cpp", "Java": ".java", "Python": ".py", "Go": ".go" }
@@ -385,6 +386,7 @@ def untrusted_check(
     print(completion_id)
     print("=====================================================")
 
+    build_execeval(Namespace(port=5000))
     result, outcome = run_test(problem, code, target_lang)
 
     print("=====================================================")
