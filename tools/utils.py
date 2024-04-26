@@ -375,6 +375,16 @@ def untrusted_check(
     completion_id: int,
 ) -> Tuple[str, np.ndarray]:
 
+    print("=====================================================")
+    print(problem)
+    print("=====================================================")
+    print(code)
+    print("=====================================================")
+    print(target_lang)
+    print("=====================================================")
+    print(completion_id)
+    print("=====================================================")
+
     # shared memory objects
     stat = Value("i", _UNKNOWN)
 
