@@ -549,14 +549,14 @@ class OpenAIChatDecoder(DecoderBase):
         fmt = "text"
 
         tokenized = self.tokenizer.encode_ordinary(prompt)
-        if len(tokenized) > 4095:
-            tokenized = tokenized[-4095:]
+        if len(tokenized) > 4000:
+            tokenized = tokenized[-4000:]
             prompt = self.tokenizer.decode(tokenized)
         ret = make_auto_request(
             self.client,
             message=prompt,
             model=self.name,
-            max_tokens=min(1024, 4095 - len(tokenized)),
+            max_tokens=min(1024, 4000 - len(tokenized)),
             temperature=self.temperature,
             n=batch_size,
             response_format={"type": fmt},
