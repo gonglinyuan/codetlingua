@@ -12,6 +12,7 @@ import anthropic
 import anthropic_request
 import google.generativeai as genai
 
+import tiktoken
 import openai
 import torch
 from transformers import (
@@ -533,6 +534,7 @@ class OpenAIChatDecoder(DecoderBase):
     def __init__(self, name: str, **kwargs) -> None:
         super().__init__(name, **kwargs)
         self.client = openai.OpenAI()
+        self.tokenizer = tiktoken.encoding_for_model(name)
 
     def codegen(
         self, prompt: str, do_sample: bool = True, num_samples: int = 200, max_length: int = 1024
@@ -546,11 +548,15 @@ class OpenAIChatDecoder(DecoderBase):
         # construct prompt
         fmt = "text"
 
+        tokenized = self.tokenizer.encode_ordinary(prompt)
+        if len(tokenized) > 4095:
+            tokenized = tokenized[-4095:]
+            prompt = self.tokenizer.decode(tokenized)
         ret = make_auto_request(
             self.client,
             message=prompt,
             model=self.name,
-            max_tokens=1024,
+            max_tokens=min(1024, 4095 - len(tokenized)),
             temperature=self.temperature,
             n=batch_size,
             response_format={"type": fmt},
