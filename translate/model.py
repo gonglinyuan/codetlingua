@@ -556,7 +556,7 @@ class OpenAIChatDecoder(DecoderBase):
             self.client,
             message=prompt,
             model=self.name,
-            max_tokens=min(1024, 4000 - len(tokenized)),
+            max_tokens=min(1024, 4010 - len(tokenized)),
             temperature=self.temperature,
             n=batch_size,
             response_format={"type": fmt},
